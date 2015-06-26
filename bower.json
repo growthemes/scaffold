@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "angular": "1.3.7",
-    "closure-compiler": "git://github.com/google/closure-compiler.git",
+    "closure-compiler": "http://dl.google.com/closure-compiler/compiler-latest.zip",
     "closure-library": "git://github.com/google/closure-library.git"
   }
 }
