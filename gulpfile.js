@@ -49,7 +49,7 @@ gulp.task('compile_js', function() {
         'only_closure_dependencies': true,
         'output_wrapper': '(function(){%output%})();',
         'js': [
-            './bower_components/closure-library/**.js',
+            './bower_components/closure-library/closure/**.js',
             './source/js/**.js',
             '!**_test.js'
         ]
