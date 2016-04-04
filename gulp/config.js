@@ -6,7 +6,7 @@ module.exports = {
     CSS_SOURCES: './source/sass/**/*.scss',
     CSS_OUT_DIR: './dist/css/',
     JS_OUT_DIR: './dist/js/',
-    JS_TEMP_DIR: './bower_components/',
+    JS_TEMP_DIR: './.tmp/',
     JS_SOURCES: [
       './source/js/**/*.js',
     ]

@@ -45,6 +45,7 @@ gulp.task('build_js', function(callback) {
   return runSequence(
       'compile_js',
       'minify_js',
+      'build_deps',
       callback);
 });
 
