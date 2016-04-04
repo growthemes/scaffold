@@ -1,7 +1,7 @@
 'use strict'
 var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
+var plugins = require('./plugins');
 var config = require('./config');
 
 gulp.task('compile_js', function() {
@@ -46,4 +46,16 @@ gulp.task('build_js', function(callback) {
       'compile_js',
       'minify_js',
       callback);
+});
+
+gulp.task('build_deps', function() {
+  console.log('plugins: ', plugins)
+  var filterJs = plugins.filter(['**/*.js', '!**/*.min.js'], { restore: true });
+  return gulp.src('./bower.json')
+    .pipe(plugins.bower())
+    .pipe(filterJs)
+    .pipe(plugins.concat('vendor.min.js'))
+    .pipe(plugins.uglify())
+    .pipe(filterJs.restore)
+    .pipe(gulp.dest(config.Path.JS_OUT_DIR));
 });
