@@ -1,8 +1,8 @@
 'use strict'
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var plugins = require('./plugins');
-var config = require('./config');
+var plugins = require('../plugins');
+var config = require('../config');
 
 gulp.task('compile_js', function() {
   return gulp.src(config.Path.JS_SOURCES).pipe(plugins.closureCompiler({
@@ -50,7 +50,6 @@ gulp.task('build_js', function(callback) {
 });
 
 gulp.task('build_deps', function() {
-  console.log('plugins: ', plugins)
   var filterJs = plugins.filter(['**/*.js', '!**/*.min.js'], { restore: true });
   return gulp.src('./bower.json')
     .pipe(plugins.bower())

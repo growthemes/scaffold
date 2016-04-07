@@ -1,7 +1,7 @@
 'use strict'
 var gulp = require('gulp');
-var config = require('./config');
-var plugins = require('./plugins');
+var config = require('../config');
+var plugins = require('../plugins');
 
 gulp.task('sass', function() {
   return gulp.src(config.Path.CSS_SOURCES)
