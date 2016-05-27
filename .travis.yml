@@ -2,16 +2,11 @@ sudo: false
 language: python
 python:
 - 2.7
+cache: pip
 install:
 - npm install -g gulp
 - npm install -g bower
-- git clone --single-branch https://github.com/grow/pygrow.git
-- cd pygrow
-- travis_retry pip install -r requirements.txt
-- python setup.py install
-- cd ..
-- npm install
-- bower install
+- pip install grow
 script:
-- gulp build
-- ./pygrow/bin/grow build
+- grow install
+- grow build
