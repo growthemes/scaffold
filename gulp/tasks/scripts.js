@@ -26,7 +26,7 @@ gulp.task('compile_js', function() {
   };
 
   var externs = [];
-  externs.concat(plugins.filenames('closure_externs'));
+  externs.concat(plugins.filenames.get('closure_externs'));
 
   closureOpts.compilerFlags.externs = externs
 
