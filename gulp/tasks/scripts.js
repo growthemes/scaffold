@@ -24,7 +24,7 @@ gulp.task('compile_js', function() {
             '!**_test.js'
         ]
     },
-    maxBuffer: 800000, // Set maxBuffer to .8GB 
+    maxBuffer: 800000, // Set maxBuffer to .8GB
     fileName: 'build.min.js'
   };
 
@@ -49,13 +49,13 @@ gulp.task('minify_js', function() {
 
 gulp.task('build_js', function(callback) {
   return runSequence(
-    'closure_externs',
+    'get_closure_externs_paths',
     'compile_js',
     'minify_js',
     callback);
 });
 
-gulp.task('closure_externs', function() {
+gulp.task('get_closure_externs_paths', function() {
     return gulp.src(config.Path.CLOSURE_EXTERNS)
         .pipe(filenames('closure_externs'))
 })
