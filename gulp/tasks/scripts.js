@@ -1,7 +1,10 @@
 'use strict'
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var plugins = require('../plugins');
+var filenames = require('gulp-filenames');
+var concat = require('gulp-concat');
+var closureCompiler = require('gulp-closure-compiler');
+var uglify = require('gulp-uglify');
 var config = require('../config');
 
 gulp.task('compile_js', function() {
@@ -26,12 +29,12 @@ gulp.task('compile_js', function() {
   };
 
   var externs = [];
-  externs.concat(plugins.filenames.get('closure_externs'));
+  externs.concat(filenames.get('closure_externs'));
 
   closureOpts.compilerFlags.externs = externs
 
   return gulp.src(config.Path.JS_SOURCES)
-    .pipe(plugins.closureCompiler(closureOpts))
+    .pipe(closureCompiler(closureOpts))
     .pipe(gulp.dest(config.Path.JS_TEMP_DIR))
 });
 
@@ -39,8 +42,8 @@ gulp.task('minify_js', function() {
   return gulp.src([
     config.Path.JS_TEMP_DIR + 'build.min.js'
   ])
-    .pipe(plugins.concat('main.min.js'))
-    .pipe(plugins.uglify())
+    .pipe(concat('main.min.js'))
+    .pipe(uglify())
     .pipe(gulp.dest(config.Path.JS_OUT_DIR));
 });
 
@@ -54,5 +57,5 @@ gulp.task('build_js', function(callback) {
 
 gulp.task('closure_externs', function() {
     return gulp.src(config.Path.CLOSURE_EXTERNS)
-        .pipe(plugins.filenames('closure_externs'))
+        .pipe(filenames('closure_externs'))
 })
