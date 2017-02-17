@@ -1,11 +1,10 @@
-grow_version: ">=0.0.60"
+grow_version: ">=0.0.67"
 
 localization:
   default_locale: en_US
   locales:
-  - de_DE
-  - en_US
-  - ja_JP
+    - en_US
+    - ja_JP
 
 static_dirs:
 - static_dir: /source/images/
@@ -15,3 +14,5 @@ static_dirs:
   
 preprocessors:
 - kind: gulp
+  build_task: "build --env=PROD"
+  run_task: "default --env=DEV"
