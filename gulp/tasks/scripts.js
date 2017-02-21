@@ -1,61 +1,53 @@
-'use strict'
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var filenames = require('gulp-filenames');
-var concat = require('gulp-concat');
-var closureCompiler = require('gulp-closure-compiler');
-var uglify = require('gulp-uglify');
-var config = require('../config');
+'use strict';
+
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
+const concat = require('gulp-concat');
+const closureCompiler = require('gulp-closure-compiler');
+const argv = require('yargs').argv;
+const rimraf = require('rimraf');
+const uglify = require('gulp-uglify');
+const config = require('../config');
+
+const ENV_PRODUCTION = argv.env == 'PROD';
 
 gulp.task('compile_js', function() {
-  var closureOpts = {
-    compilerPath: './bower_components/closure-compiler/compiler.jar',
+
+  const OPT_LEVEL = ENV_PRODUCTION ?
+    'ADVANCED_OPTIMIZATIONS' :
+    'SIMPLE_OPTIMIZATIONS';
+
+  const closureOpts = {
+    compilerPath: './bower_components/closure-compiler/closure-compiler-v20170124.jar',
     compilerFlags: {
-        angular_pass: true,
-        closure_entry_point: 'scaffold',
-        compilation_level: 'SIMPLE_OPTIMIZATIONS',
-        generate_exports: true,
-        manage_closure_dependencies: true,
-        only_closure_dependencies: true,
-        output_wrapper: '(function(){%output%})();',
-        js: [
-            './bower_components/closure-library/closure/**.js',
-            './bower_components/closure-library/third_party/**.js',
-            '!**_test.js'
-        ]
+      angular_pass: true,
+      closure_entry_point: 'goog:app.bootstrap',
+      compilation_level: OPT_LEVEL,
+      output_wrapper: '(function(){%output%})();',
+      generate_exports: true,
+      export_local_property_definitions: true,
+      js: [
+        './bower_components/closure-library/closure/goog/base.js',
+        '!**_test.js',
+        '!**_spec.js'
+      ],
+      externs: [
+        './bower_components/closure-compiler-src/contrib/externs/angular-1.6*.js'
+      ]
     },
-    maxBuffer: 800000, // Set maxBuffer to .8GB
-    fileName: 'build.min.js'
+    maxBuffer: 800000, // .8GB
+    fileName: 'main.min.js'
   };
 
-  var externs = [];
-  externs.concat(filenames.get('closure_externs'));
-
-  closureOpts.compilerFlags.externs = externs
-
-  return gulp.src(config.Path.JS_SOURCES)
+  return gulp
+    .src(config.Path.JS_SOURCES)
     .pipe(closureCompiler(closureOpts))
-    .pipe(gulp.dest(config.Path.JS_TEMP_DIR))
-});
-
-gulp.task('minify_js', function() {
-  return gulp.src([
-    config.Path.JS_TEMP_DIR + 'build.min.js'
-  ])
-    .pipe(concat('main.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest(config.Path.JS_OUT_DIR));
 });
 
-gulp.task('build_js', function(callback) {
-  return runSequence(
-    'get_closure_externs_paths',
-    'compile_js',
-    'minify_js',
-    callback);
-});
-
-gulp.task('get_closure_externs_paths', function() {
-    return gulp.src(config.Path.CLOSURE_EXTERNS)
-        .pipe(filenames('closure_externs'))
+gulp.task('clean', function(callback) {
+  rimraf('./build', callback);
 })
+
+gulp.task('build_js', ['compile_js']);

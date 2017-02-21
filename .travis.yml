@@ -1,12 +1,17 @@
 sudo: false
 language: python
 python:
-- 2.7
+  - 2.7
+node_js:
+  - "6.2"
 cache: pip
+before_install:
+  - nvm install 6.2
 install:
-- npm install -g gulp
-- npm install -g bower
-- pip install grow
+  - nvm use 6.2
+  - npm install -g gulp
+  - npm install -g bower
+  - pip install grow
 script:
-- grow install
-- grow build
+  - grow install
+  - grow build

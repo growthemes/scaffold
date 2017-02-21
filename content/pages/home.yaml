@@ -1,0 +1,6 @@
+$title@: Home
+$path: /
+$view: /views/pages/home.html
+
+$localization:
+  path: /intl/{locale}/

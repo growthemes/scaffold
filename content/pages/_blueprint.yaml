@@ -3,3 +3,6 @@ view: /views/base.html
 
 localization:
   path: /intl/{locale}/{base}/
+
+title@: Grow Scaffold
+description@: Grow Scaffold theme with Google modules

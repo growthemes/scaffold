@@ -9,8 +9,5 @@ module.exports = {
     JS_TEMP_DIR: './.tmp/',
     JS_SOURCES: './source/js/**/*.js',
     BOWER_FOLDER: './bower_components/',
-    CLOSURE_EXTERNS: [
-        './bower_components/closure-compiler-src/externs/browser/**/*.js'
-    ]
   }
 }
