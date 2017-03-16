@@ -22,7 +22,7 @@
       {% for locale in doc.locales %}
       <option
       {% if doc.locale == locale %} selected{% endif %}
-        value="{{g.doc(doc.pod_path, locale=locale).url.path}}">
+        value="{{doc.localize(locale).url.path}}">
         {{locale.get_display_name(locale)}}
       {% endfor %}
     </select>
